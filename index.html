@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACT ZONE - Surendra.S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: #9400D3;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0; /* Ensures no default body margin */
+            overflow-x: hidden; /* Prevents horizontal scrolling */
+            overflow-y: scroll; /* Enables vertical scrolling */
+        }
+        .matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: black;
+        }
+        .clock-container {
+            width: 100%;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .sparkle {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3, 0 0 20px #9400D3;
+            animation: sparkle 1s infinite alternate;
+        }
+        @keyframes sparkle {
+            0% { text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3, 0 0 20px #9400D3; }
+            50% { text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF; }
+            100% { text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3, 0 0 20px #9400D3; }
+        }
+        .profile {
+            margin: 20px auto;
+            padding: 20px;
+            width: 60%;
+            background-color: black;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 10px #9400D3;
+            color: white;
+        }
+        .note {
+            margin: 20px auto;
+            padding: 20px;
+            width: 60%;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            position: relative;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #9400D3, white);
+        }
+        .time {
+            font-size: 1.5em;
+            color: white;
+        }
+        .rose-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .rose {
+            width: 100px; /* Adjust size as needed */
+            height: auto;
+            filter: drop-shadow(0 0 10px #9400D3);
+        }
+        a {
+            color: #9400D3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix" id="matrixCanvas"></canvas>
+    <div class="clock-container">
+        <div class="time" id="liveTime"></div>
+    </div>
+    <h1 class="sparkle">ACT ZONE</h1>
+    <div class="rose-container">
+        <img src="https://raw.githubusercontent.com/Sonsy-26/web/refs/heads/main/neon-rose.png" alt="Neon Rose" width="100" height="auto">
+    </div>
+    <div class="profile">
+        <h2>Surendra.S</h2>
+        <p>Cyber Security Professional | Horoscope: Libra</p>
+        <p><a href="https://github.com/Sonsy-26" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/surendra-s-from2005/" target="_blank">LinkedIn</a> | <a href="https://www.instagram.com/surendra_sonu_sep/" target="_blank">Instagram</a></p>
+    </div>
+    <div class="note">
+        <p id="quoteText">Loading...</p>
+        <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+        </div>
+    </div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            document.getElementById("liveTime").textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const canvas = document.getElementById("matrixCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "0123456789ABCDEF".split("");
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array.from({ length: columns }).map(() => 1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#9400D3";
+            ctx.font = fontSize + "px Orbitron";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        const quotes = [
+            "Hack the planet!",
+            "Code is like humor. When you have to explain it, it’s bad.",
+            "The quieter you become, the more you are able to hear.",
+            "Every great developer you know got there by solving problems.",
+            "Stay anonymous. Stay secure.",
+            "Security isn’t just a product, it’s a process.",
+            "The best way to predict the future is to create it.",
+            "There’s no place like 127.0.0.1.",
+            "A good hacker knows all the loopholes; a great hacker knows when not to use them.",
+            "Encryption is the guardian of our digital lives.",
+            "Without cybersecurity, there is no privacy.",
+            "Hacking is not about breaking things; it’s about making them better.",
+            "To defeat the hacker, you must think like one.",
+            "In the world of cybersecurity, the human factor is always the weakest link.",
+            "Passwords are like underwear: change them often, keep them private, and don’t share them.",
+            "Your privacy is your right. Defend it.",
+            "Cybersecurity is not a one-time fix; it’s a continuous process.",
+            "A hacker does for love what others would not do for money.",
+            "The only truly secure system is one that is powered off, cast in a block of concrete, and sealed in a lead-lined room.",
+            "Think before you click. The biggest risk is human error."
+        ];
+
+        function updateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById("quoteText").textContent = quotes[randomIndex];
+            const progressBar = document.getElementById("progressBar");
+            progressBar.style.transition = "none"; // Disable transition temporarily
+            progressBar.style.width = "0%"; // Reset width
+            setTimeout(() => {
+                progressBar.style.transition = "width 5s linear"; // Re-enable transition
+                progressBar.style.width = "100%"; // Set width to 100%
+            }, 10); // Small delay to trigger the transition
+        }
+
+        setInterval(updateQuote, 5000);
+        window.onload = updateQuote;
+    </script>
+</body>
+</html>
