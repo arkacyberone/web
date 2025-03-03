@@ -271,6 +271,28 @@
         }
     });
    </script>
+<button id="scrollTop" class="scroll-top">⬆</button>
+<script>
+    window.addEventListener("scroll", function() {
+        let scrollButton = document.getElementById("scrollTop");
+        if (window.scrollY > 200) {
+            scrollButton.style.display = "block";
+        } else {
+            scrollButton.style.display = "none";
+        }
+    });
 
+    document.getElementById("scrollTop").addEventListener("click", function() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>
+<style>
+.scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+</style>
+</script>
 </body>
 </html>
