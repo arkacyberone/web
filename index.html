@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACT ZONE</title>
+    <title>ACO ZONE</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
@@ -53,7 +53,7 @@
             margin: 20px auto;
             padding: 20px;
             width: 80%;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             box-shadow: 0px 0px 10px #5ed8f6;
             color: white;
@@ -95,7 +95,7 @@
         
     </div>
    
-    <h1 class="sparkle">ArkaCyber Tech</h1>
+    <h1 class="sparkle">ArkaCyberOne</h1>
     <div class="profile">
         <p>I'm Surendra, but everyone calls me Sonu. im an engineer who is passionate for cybersecurity and programming - make some codes which will turn into magic <"-"></p>
         <p>Cyber Security Professional | Horoscope: Libra</p>
@@ -151,6 +151,10 @@
             "retina_detect": true
         });
     </script>
+ <button id="toggleQuiz">View More</button>
+ <div class="quiz-content" id="quizContent" style="display: none;">
+     <!-- Your quiz questions go here -->
+
  <div class="quiz-container">
     <h2>Cybersecurity Quiz</h2>
     <form id="quizForm">
@@ -253,6 +257,20 @@
         color: #5ed8f6;
     }
 </style>
+</div>
+ 
+<script>
+    document.getElementById("toggleQuiz").addEventListener("click", function() {
+        let quiz = document.getElementById("quizContent");
+        if (quiz.style.display === "none") {
+            quiz.style.display = "block";
+            this.textContent = "Close Quiz";
+        } else {
+            quiz.style.display = "none";
+            this.textContent = "Open Quiz";
+        }
+    });
+   </script>
 
 </body>
 </html>
