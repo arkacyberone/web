@@ -295,23 +295,23 @@
     });
 </script>
 <audio id="scrollSound" src="https://github.com/arkacyberone/web/raw/refs/heads/main/scroll.wav"></audio>
-
 <script>
   let lastScroll = 0;
   const sound = document.getElementById("scrollSound");
 
   window.addEventListener("scroll", () => {
       let currentScroll = window.scrollY;
-      
-      // Play sound only when scrolling, not on small movements
-      if (Math.abs(currentScroll - lastScroll) > 10) {
+
+      // Play sound on every pixel movement
+      if (Math.abs(currentScroll - lastScroll) >= 1) {
           sound.currentTime = 0; // Reset sound for quick playback
           sound.play().catch(err => console.log("Sound playback error:", err));
       }
-      
+
       lastScroll = currentScroll;
   });
 </script>
+
     
 
 </body>
