@@ -3,116 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACT ZONE - Surendra.S</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <title>ACT ZONE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         body {
             background-color: black;
-            color: #9400D3;
-            font-family: 'Orbitron', sans-serif;
+            color: #5ed8f6;
+            font-family: 'Fira Code', monospace;
             text-align: center;
-            padding: 20px;
-            margin: 0; /* Ensures no default body margin */
-            overflow-x: hidden; /* Prevents horizontal scrolling */
-            overflow-y: scroll; /* Enables vertical scrolling */
+            margin: 0;
+            overflow-x: hidden;
         }
-        .matrix {
+        .background-video {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(40%);
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%; height: 100%;
             z-index: -1;
-            background: black;
+            top: 0; left: 0;
+            pointer-events: all;
         }
         .clock-container {
-            width: 100%;
-            background-color: black;
+            background: black;
             color: white;
-            padding: 10px;
-            text-align: center;
+            box-shadow: 0px 0px 10px #5ed8f6;
+            padding: 15px;
         }
         .sparkle {
             font-size: 2.5em;
             font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
             color: white;
-            text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3, 0 0 20px #9400D3;
-            animation: sparkle 1s infinite alternate;
+            animation: sparkle 2s infinite alternate;
         }
+
         @keyframes sparkle {
-            0% { text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3, 0 0 20px #9400D3; }
-            50% { text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF, 0 0 40px #FFFFFF; }
-            100% { text-shadow: 0 0 5px #9400D3, 0 0 10px #9400D3, 0 0 15px #9400D3, 0 0 20px #9400D3; }
+            0%, 100% { text-shadow: 0 0 5px #5ed8f6; }
+            50% { text-shadow: 0 0 20px white; }
         }
-        .profile {
+        .profile, .note {
             margin: 20px auto;
             padding: 20px;
             width: 60%;
-            background-color: black;
+            background: black;
             border-radius: 10px;
-            text-align: center;
-            box-shadow: 0px 0px 10px #9400D3;
+            box-shadow: 0px 0px 10px #5ed8f6;
             color: white;
-        }
-        .note {
-            margin: 20px auto;
-            padding: 20px;
-            width: 60%;
-            border-radius: 10px;
-            text-align: center;
-            color: white;
-            position: relative;
         }
         .progress-bar {
             width: 100%;
-            height: 5px;
+            height: 8px;
             background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
             overflow: hidden;
             position: relative;
-            margin-top: 10px;
+            box-shadow: 0px 0px 5px #5ed8f6;
         }
+
         .progress {
             height: 100%;
             width: 0;
-            background: linear-gradient(90deg, #9400D3, white);
-        }
-        .time {
-            font-size: 1.5em;
-            color: white;
-        }
-        .rose-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .rose {
-            width: 100px; /* Adjust size as needed */
-            height: auto;
-            filter: drop-shadow(0 0 10px #9400D3);
+            background: linear-gradient(90deg, #5ed8f6, #00aaff);
+            border-radius: 5px;
+            transition: width 5s linear;
         }
         a {
-            color: #9400D3;
+            color: #5ed8f6;
             text-decoration: none;
             font-weight: bold;
         }
-        a:hover {
-            text-decoration: underline;
-        }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <canvas class="matrix" id="matrixCanvas"></canvas>
+   
+
+    <div id="particles-js"></div>
+    <video autoplay loop muted playsinline class="background-video">
+        <source src="https://github.com/arkacyberone/CyberSite/raw/refs/heads/main/bg_blur.mp4" type="video/mp4">
+    </video>
     <div class="clock-container">
         <div class="time" id="liveTime"></div>
+        
     </div>
-    <h1 class="sparkle">ACT ZONE</h1>
-    <div class="rose-container">
-        <img src="https://raw.githubusercontent.com/arkacyberone/CyberSite/refs/heads/main/neon-rose.png" alt="Neon Rose" width="100" height="auto">
-    </div>
+   
+    <h1 class="sparkle">ArkaCyber Tech</h1>
     <div class="profile">
-        <h2>Surendra.S</h2>
+        <p>I'm Surendra, but everyone calls me Sonu. im an engineer who is passionate for cybersecurity and programming - make some codes which will turn into magic <"-"></p>
         <p>Cyber Security Professional | Horoscope: Libra</p>
-        <p><a href="https://github.com/Sonsy-26" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/surendra-s-from2005/" target="_blank">LinkedIn</a> | <a href="https://www.instagram.com/surendra_sonu_sep/" target="_blank">Instagram</a></p>
+        <p>
+            <a href="https://github.com/Sonsy-26" target="_blank">GitHub</a> |
+            <a href="https://www.linkedin.com/in/surendra-s-from2005/" target="_blank">LinkedIn</a> |
+            <a href="https://www.instagram.com/surendra_sonu_sep/" target="_blank">Instagram</a>
+        </p>
     </div>
     <div class="note">
         <p id="quoteText">Loading...</p>
@@ -122,74 +113,146 @@
     </div>
     <script>
         function updateTime() {
-            const now = new Date();
-            document.getElementById("liveTime").textContent = now.toLocaleTimeString();
+            document.getElementById("liveTime").textContent = new Date().toLocaleTimeString();
         }
         setInterval(updateTime, 1000);
         updateTime();
 
-        const canvas = document.getElementById("matrixCanvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = "0123456789ABCDEF".split("");
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array.from({ length: columns }).map(() => 1);
-
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#9400D3";
-            ctx.font = fontSize + "px Orbitron";
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-        setInterval(drawMatrix, 50);
-
         const quotes = [
-            "Hack the planet!",
-            "Code is like humor. When you have to explain it, it’s bad.",
+            "Hack the planet!", "Code is like humor. When you have to explain it, it’s bad.",
             "The quieter you become, the more you are able to hear.",
             "Every great developer you know got there by solving problems.",
-            "Stay anonymous. Stay secure.",
-            "Security isn’t just a product, it’s a process.",
-            "The best way to predict the future is to create it.",
-            "There’s no place like 127.0.0.1.",
-            "A good hacker knows all the loopholes; a great hacker knows when not to use them.",
-            "Encryption is the guardian of our digital lives.",
-            "Without cybersecurity, there is no privacy.",
-            "Hacking is not about breaking things; it’s about making them better.",
-            "To defeat the hacker, you must think like one.",
-            "In the world of cybersecurity, the human factor is always the weakest link.",
-            "Passwords are like underwear: change them often, keep them private, and don’t share them.",
-            "Your privacy is your right. Defend it.",
-            "Cybersecurity is not a one-time fix; it’s a continuous process.",
-            "A hacker does for love what others would not do for money.",
-            "The only truly secure system is one that is powered off, cast in a block of concrete, and sealed in a lead-lined room.",
-            "Think before you click. The biggest risk is human error."
+            "Stay anonymous. Stay secure.", "Security isn’t just a product, it’s a process.",
+            "A hacker does for love what others would not do for money."
         ];
-
         function updateQuote() {
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            document.getElementById("quoteText").textContent = quotes[randomIndex];
-            const progressBar = document.getElementById("progressBar");
-            progressBar.style.transition = "none"; // Disable transition temporarily
-            progressBar.style.width = "0%"; // Reset width
-            setTimeout(() => {
-                progressBar.style.transition = "width 5s linear"; // Re-enable transition
-                progressBar.style.width = "100%"; // Set width to 100%
-            }, 10); // Small delay to trigger the transition
+            document.getElementById("quoteText").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById("progressBar").style.width = "0%";
+            setTimeout(() => document.getElementById("progressBar").style.width = "100%", 10);
         }
-
         setInterval(updateQuote, 5000);
         window.onload = updateQuote;
     </script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#5ed8f6" }, "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#5ed8f6", "opacity": 0.4, "width": 1 },
+                "move": { "enable": true, "speed": 3 }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } },
+                "modes": { "grab": { "distance": 200, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 10 } }
+            },
+            "retina_detect": true
+        });
+    </script>
+ <div class="quiz-container">
+    <h2>Cybersecurity Quiz</h2>
+    <form id="quizForm">
+        <div class="question">
+            <p>1. What does "VPN" stand for?</p>
+            <label class="option"><input type="radio" name="q1" value="a"> Virtual Personal Network</label>
+            <label class="option"><input type="radio" name="q1" value="b"> Virtual Private Network</label>
+            <label class="option"><input type="radio" name="q1" value="c"> Verified Private Node</label>
+        </div>
+        <div class="question">
+            <p>2. Which of the following is a strong password?</p>
+            <label class="option"><input type="radio" name="q2" value="a"> 123456</label>
+            <label class="option"><input type="radio" name="q2" value="b"> password</label>
+            <label class="option"><input type="radio" name="q2" value="c"> P@ssw0rd!987</label>
+        </div>
+        <div class="question">
+            <p>3. What is "phishing"?</p>
+            <label class="option"><input type="radio" name="q3" value="a"> A cyberattack that tricks people into revealing personal information</label>
+            <label class="option"><input type="radio" name="q3" value="b"> A secure way to transfer files online</label>
+            <label class="option"><input type="radio" name="q3" value="c"> An advanced encryption technique</label>
+        </div>
+        <div class="question">
+            <p>4. What is the purpose of a firewall?</p>
+            <label class="option"><input type="radio" name="q4" value="a"> To physically block hackers from entering your computer</label>
+            <label class="option"><input type="radio" name="q4" value="b"> To monitor and control incoming and outgoing network traffic</label>
+            <label class="option"><input type="radio" name="q4" value="c"> To make your internet speed faster</label>
+        </div>
+        <div class="question">
+            <p>5. Which of the following is an example of multi-factor authentication (MFA)?</p>
+            <label class="option"><input type="radio" name="q5" value="a"> Entering a username and password</label>
+            <label class="option"><input type="radio" name="q5" value="b"> Using a fingerprint scanner along with a password</label>
+            <label class="option"><input type="radio" name="q5" value="c"> Saving passwords in a browser</label>
+        </div>
+        
+        <button type="button" onclick="submitQuiz()">Submit</button>
+    </form>
+    <p id="quizResult"></p>
+</div>
+
+<script>
+    function submitQuiz() {
+        let score = 0;
+        const answers = { q1: "b", q2: "c", q3: "a", q4: "b", q5: "b" };
+        
+        Object.keys(answers).forEach(q => {
+            const selected = document.querySelector(`input[name="${q}"]:checked`);
+            if (selected && selected.value === answers[q]) {
+                score++;
+            }
+        });
+        
+        document.getElementById("quizResult").textContent = `Your Score: ${score}/5`;
+    }
+</script>
+
+<style>
+    .quiz-container {
+        margin: 20px auto;
+        padding: 20px;
+        width: 60%;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        box-shadow: 0px 0px 15px #5ed8f6;
+        color: white;
+        text-align: left;
+        font-size: 1.2em;
+    }
+    .question {
+        margin-bottom: 15px;
+    }
+    .option {
+        display: block;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        margin: 5px 0;
+        transition: 0.3s;
+    }
+    .option:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    button {
+        background: #5ed8f6;
+        color: black;
+        padding: 12px 20px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: 0.3s;
+    }
+    button:hover {
+        background: #00aaff;
+    }
+    #quizResult {
+        margin-top: 15px;
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #5ed8f6;
+    }
+</style>
+
 </body>
 </html>
