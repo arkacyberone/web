@@ -294,5 +294,15 @@
 }
 </style>
 </script>
+<audio id="clickSound" src="click.mp3"></audio>
+
+<script>
+    document.addEventListener("click", function() {
+        let clickSound = document.getElementById("clickSound");
+        clickSound.currentTime = 0; // Reset sound to start
+        clickSound.play();
+    });
+</script>
+
 </body>
 </html>
