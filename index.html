@@ -87,9 +87,27 @@
         <div class="dropdown" style="position: absolute; left: 10px; top: 10px;">
             <button onclick="myFunction()" class="dropbtn">☰</button>
             <div id="myDropdown" class="dropdown-content">
-                <a href="#">Link 1</a>
-                <a href="#">Link 2</a>
-                <a href="#">Link 3</a>
+                <div class="image-links">
+                    <a href="https://example.com/link1"><img src="image1.jpg"></a>
+                    <a href="https://example.com/link2"><img src="image2.jpg"></a>
+                    <a href="https://example.com/link3"><img src="image3.jpg"></a>
+                </div>
+<style>
+ .image-links a {
+    display: block;
+    margin-bottom: 15px; /* Space between images */
+    text-align: center; /* Center images (optional) */
+}
+.image-links img {
+    width: 150px; /* Adjust as needed */
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.image-links img:hover {
+    transform: scale(1.1); /* Hover effect */
+}
+
+</style>                
             </div>
         </div>
         <div class="time" id="liveTime"></div>
@@ -112,6 +130,7 @@
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
     background: #00aaff;
+    transition: 0.3s;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -125,22 +144,27 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  background-color: rgba(35, 35, 35, 0.8);
+  min-width: 15px;
+  box-shadow: 0px 0px 15px #5ed8f6;
+  border-radius: 10px;
+  padding : 15px
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  color: black;
+  color: rgb(255, 255, 255);
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  border-radius: 10px;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+    background-color:#00aaff;
+    transition: 0.3s;
+}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
