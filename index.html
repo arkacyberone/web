@@ -168,8 +168,60 @@ window.onclick = function(event) {
           </script>
         
 </div>
-   
+
+
     <h1 class="sparkle">ArkaCyberOne</h1>
+    <div>
+        <h1 id="typewriter">This a place for <span id="changing-text"></span></h1>
+        <script>
+            const words = ["Hackers.", "Developers.", "Creators.", "Innovators.", "Thinkers."];
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+const speed = 100;
+const eraseSpeed = 50;
+const delayBetweenWords = 1000;
+
+function typeEffect() {
+    const changingText = document.getElementById("changing-text");
+    
+    if (!changingText) return;
+
+    if (isDeleting) {
+        changingText.textContent = words[wordIndex].substring(0, charIndex--);
+    } else {
+        changingText.textContent = words[wordIndex].substring(0, charIndex++);
+    }
+
+    let nextSpeed = isDeleting ? eraseSpeed : speed;
+
+    if (!isDeleting && charIndex === words[wordIndex].length) {
+        isDeleting = true;
+        nextSpeed = delayBetweenWords;
+    } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+    }
+
+    setTimeout(typeEffect, nextSpeed);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(typeEffect, speed);
+});
+
+        </script>
+<style>
+    #changing-text {
+    font-weight: bold;
+    color: #5ed8f6;
+    border-right: 2px solid #5ed8f6;
+    padding-right: 5px;
+    display: inline-block;
+}
+
+</style>
+    </div>
     <div class="profile">
         <p>I'm Surendra, but everyone calls me Sonu. im an engineer who is passionate for cybersecurity and programming - make some codes which will turn into magic <"-"></p>
         <p>Cyber Security Professional | Horoscope: Libra</p>
