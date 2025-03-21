@@ -11,14 +11,34 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         body {
-            background-color: black;
-            color: #5ed8f6;
+            background: linear-gradient(to bottom right, #1a1a1a, #333);
+            color: #e0e0e0;
             font-family: 'Fira Code', monospace;
             text-align: center;
             margin: 0;
             overflow-x: hidden;
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: #5ed8f6 #333; /* For Firefox */
         }
-       
+
+        /* Custom scrollbar for Webkit browsers (Chrome, Safari) */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #5ed8f6;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #00aaff;
+        }
+
         #particles-js {
             position: fixed;
             width: 100%; height: 100%;
@@ -26,12 +46,17 @@
             top: 0; left: 0;
             pointer-events: all;
         }
+
         .clock-container {
-            background: black;
+            background: rgba(0, 0, 0, 0.7);
             color: white;
             box-shadow: 0px 0px 10px #5ed8f6;
             padding: 15px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: fit-content;
         }
+
         .sparkle {
             font-size: 2.5em;
             font-weight: bold;
@@ -44,15 +69,22 @@
             0%, 100% { text-shadow: 0 0 5px #5ed8f6; }
             50% { text-shadow: 0 0 20px white; }
         }
+
         .profile, .note {
             margin: 20px auto;
             padding: 20px;
             width: 80%;
             background: rgba(35, 35, 35, 0.8);
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px #5ed8f6;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
             color: white;
+            transition: transform 0.3s;
         }
+
+        .profile:hover, .note:hover {
+            transform: scale(1.02);
+        }
+
         .progress-bar {
             width: 100%;
             height: 8px;
@@ -70,244 +102,168 @@
             border-radius: 5px;
             transition: width 5s linear;
         }
+
         a {
             color: #5ed8f6;
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s;
         }
-        a:hover { text-decoration: underline; }
+
+        a:hover { 
+            color: #00aaff; 
+            text-decoration: underline; 
+        }
+
+        button {
+            background: #5ed8f6;
+            color: black;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #00aaff;
+            transform: scale(1.05);
+        }
+
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 2s;
+        }
+
+        .dropdown {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(35, 35, 35, 0.8);
+            min-width: 15px;
+            box-shadow: 0px 0px 15px #5ed8f6;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .dropdown-content a {
+            color: rgb(255, 255, 255);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #00aaff;
+            transition: 0.3s;
+        }
+
+        .show { display: block; }
+
+        #changing-text {
+            font-weight: bold;
+            color: #5ed8f6;
+            border-right: 2px solid #5ed8f6;
+            padding-right: 5px;
+            display: inline-block;
+        }
+
+        .quiz-container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            background: rgba(35, 35, 35, 0.8);
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px #5ed8f6;
+            color: white;
+            text-align: left;
+            font-size: 0.9em;
+        }
+
+        .question {
+            margin-bottom: 15px;
+        }
+
+        .option {
+            display: block;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #quizResult {
+            margin-top: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #5ed8f6;
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background: #5ed8f6;
+            color: black;
+            padding: 10px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .scroll-top:hover {
+            background: #00aaff;
+        }
     </style>
 </head>
 <body>
     <div class="video-container">
-        <video id="bgVideo" autoplay muted loop>
-            <source src="your-video.mp4" type="video/mp4">
+        <video id="bgVideo" autoplay muted>
+            <source src="https://github.com/arkacyberone/web/raw/refs/heads/main/Assets/clips/bg.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
-    <style>
-        .video-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
-}
-
-.video-container video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(5px);
-    transition: opacity 2s, filter 2s;
-}
-
-.fade-out {
-    opacity: 0;
-    filter: blur(15px);
-}
-
-.fade-in {
-    opacity: 1;
-    filter: blur(5px);
-}
-
-.content {
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-    </style>
-    <script>
-        const video = document.getElementById("bgVideo");
-
-video.addEventListener("timeupdate", function() {
-    if (video.currentTime >= video.duration - 2) { // 2 sec before end
-        video.classList.add("fade-out");  // Apply blur & fade effect
-    }
-});
-
-video.addEventListener("ended", function() {
-    video.classList.remove("fade-out");
-    video.classList.add("fade-in"); // Reset fade effect
-    video.currentTime = 0;
-    video.play();
-});
-
-    </script>
 
     <div id="particles-js"></div>
    
     <div class="clock-container">
-        <div class="dropdown" style="position: absolute; left: 10px; top: 10px;">
-            <button onclick="myFunction()" class="dropbtn">☰</button>
-            <div id="myDropdown" class="dropdown-content">
-                <div class="image-links">
-                    <a href="https://example.com/link1"><img src="image1.jpg"></a>
-                    <a href="https://example.com/link2"><img src="image2.jpg"></a>
-                    <a href="https://example.com/link3"><img src="image3.jpg"></a>
-                </div>
-<style>
- .image-links a {
-    display: block;
-    margin-bottom: 15px; /* Space between images */
-    text-align: center; /* Center images (optional) */
-}
-.image-links img {
-    width: 150px; /* Adjust as needed */
-    border-radius: 10px;
-    transition: 0.3s;
-}
-.image-links img:hover {
-    transform: scale(1.1); /* Hover effect */
-}
-
-</style>                
-            </div>
-        </div>
         <div class="time" id="liveTime"></div>
     </div>
-          </div>
-          <style>
-            /* Dropdown Button */
-.dropbtn {
-    background: #5ed8f6;
-    color: black;
-    padding: 5px 20px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    border-radius: 25px; /* Change this */
-    font-size: 1em;
-    transition: 0.3s;
-}
-
-/* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
-    background: #00aaff;
-    transition: 0.3s;
-}
-
-/* The container <div> - needed to position the dropdown content */
-    .dropdown {
-    position: absolute; /* Positioning it absolutely within the clock container */
-    left: 10px; /* Adjust as needed */
-    top: 10px; /* Adjust as needed */
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: rgba(35, 35, 35, 0.8);
-  min-width: 15px;
-  box-shadow: 0px 0px 15px #5ed8f6;
-  border-radius: 10px;
-  padding : 15px
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: rgb(255, 255, 255);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  border-radius: 10px;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color:#00aaff;
-    transition: 0.3s;
-}
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
-          </style>
-          <script>
-            /* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-          </script>
-        
-</div>
-
 
     <h1 class="sparkle">ArkaCyberOne</h1>
     <div>
-        <h1 id="typewriter">This a place for <span id="changing-text"></span></h1>
-        <script>
-            const words = ["Hackers.", "Developers.", "Creators.", "Innovators.", "Thinkers."];
-let wordIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-const speed = 100;
-const eraseSpeed = 50;
-const delayBetweenWords = 1000;
-
-function typeEffect() {
-    const changingText = document.getElementById("changing-text");
-    
-    if (!changingText) return;
-
-    if (isDeleting) {
-        changingText.textContent = words[wordIndex].substring(0, charIndex--);
-    } else {
-        changingText.textContent = words[wordIndex].substring(0, charIndex++);
-    }
-
-    let nextSpeed = isDeleting ? eraseSpeed : speed;
-
-    if (!isDeleting && charIndex === words[wordIndex].length) {
-        isDeleting = true;
-        nextSpeed = delayBetweenWords;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-    }
-
-    setTimeout(typeEffect, nextSpeed);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(typeEffect, speed);
-});
-
-        </script>
-<style>
-    #changing-text {
-    font-weight: bold;
-    color: #5ed8f6;
-    border-right: 2px solid #5ed8f6;
-    padding-right: 5px;
-    display: inline-block;
-}
-
-</style>
+        <h1 id="typewriter">Place for <span id="changing-text"></span></h1>
     </div>
+
     <div class="profile">
-        <p>I'm Surendra, but everyone calls me Sonu. im an engineer who is passionate for cybersecurity and programming - make some codes which will turn into magic <"-"></p>
+        <p>I'm Surendra, but everyone calls me Sonu. I'm an engineer who is passionate about cybersecurity and programming - making some codes which will turn into magic <"-"></p>
         <p>Cyber Security Professional | Horoscope: Libra</p>
         <p>
             <a href="https://github.com/Sonsy-26" target="_blank">GitHub</a> |
@@ -315,12 +271,14 @@ document.addEventListener("DOMContentLoaded", () => {
             <a href="https://www.instagram.com/surendra_sonu_sep/" target="_blank">Instagram</a>
         </p>
     </div>
+
     <div class="note">
         <p id="quoteText">Loading...</p>
         <div class="progress-bar">
             <div class="progress" id="progressBar"></div>
         </div>
     </div>
+
     <script>
         function updateTime() {
             document.getElementById("liveTime").textContent = new Date().toLocaleTimeString();
@@ -342,185 +300,173 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         setInterval(updateQuote, 5000);
         window.onload = updateQuote;
-    </script>
-   <script>
-    particlesJS("particles-js", {
-        "particles": {
-            "number": { "value": 60, "density": { "enable": true, "value_area": 1000 } },  
-            "color": { "value": "#5ed8f6" },
-            "shape": { "type": "circle" },
-            "opacity": { "value": 0.4, "random": true, "anim": { "enable": false } },  
-            "size": { "value": 2, "random": true, "anim": { "enable": false } },  
-            "line_linked": { "enable": true, "distance": 130, "color": "#5ed8f6", "opacity": 0.3, "width": 0.8 },  
-            "move": { "enable": true, "speed": 2, "straight": false, "out_mode": "out" }  
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": { 
-                "onhover": { "enable": true, "mode": "grab" },  
-                "onclick": { "enable": true, "mode": "push" } 
-            },
-            "modes": { 
-                "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } },  
-                "push": { "particles_nb": 5 }  
+
+        const words = ["Hackers.", "Developers.", "Creators.", "Innovators.", "Thinkers."];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const speed = 100;
+        const eraseSpeed = 50;
+        const delayBetweenWords = 1000;
+
+        function typeEffect() {
+            const changingText = document.getElementById("changing-text");
+            if (!changingText) return;
+
+            if (isDeleting) {
+                changingText.textContent = words[wordIndex].substring(0, charIndex--);
+            } else {
+                changingText.textContent = words[wordIndex].substring(0, charIndex++);
             }
-        },
-        "retina_detect": true
-    });
-</script>
 
- <button id="toggleQuiz">View More</button>
- <div class="quiz-content" id="quizContent" style="display: none;">
-     <!-- Your quiz questions go here -->
+            let nextSpeed = isDeleting ? eraseSpeed : speed;
 
- <div class="quiz-container">
-    <h2>Cybersecurity Quiz</h2>
-    <form id="quizForm">
-        <div class="question">
-            <p>1. What does "VPN" stand for?</p>
-            <label class="option"><input type="radio" name="q1" value="a"> Virtual Personal Network</label>
-            <label class="option"><input type="radio" name="q1" value="b"> Virtual Private Network</label>
-            <label class="option"><input type="radio" name="q1" value="c"> Verified Private Node</label>
-        </div>
-        <div class="question">
-            <p>2. Which of the following is a strong password?</p>
-            <label class="option"><input type="radio" name="q2" value="a"> 123456</label>
-            <label class="option"><input type="radio" name="q2" value="b"> password</label>
-            <label class="option"><input type="radio" name="q2" value="c"> P@ssw0rd!987</label>
-        </div>
-        <div class="question">
-            <p>3. What is "phishing"?</p>
-            <label class="option"><input type="radio" name="q3" value="a"> A cyberattack that tricks people into revealing personal information</label>
-            <label class="option"><input type="radio" name="q3" value="b"> A secure way to transfer files online</label>
-            <label class="option"><input type="radio" name="q3" value="c"> An advanced encryption technique</label>
-        </div>
-        <div class="question">
-            <p>4. What is the purpose of a firewall?</p>
-            <label class="option"><input type="radio" name="q4" value="a"> To physically block hackers from entering your computer</label>
-            <label class="option"><input type="radio" name="q4" value="b"> To monitor and control incoming and outgoing network traffic</label>
-            <label class="option"><input type="radio" name="q4" value="c"> To make your internet speed faster</label>
-        </div>
-        <div class="question">
-            <p>5. Which of the following is an example of multi-factor authentication (MFA)?</p>
-            <label class="option"><input type="radio" name="q5" value="a"> Entering a username and password</label>
-            <label class="option"><input type="radio" name="q5" value="b"> Using a fingerprint scanner along with a password</label>
-            <label class="option"><input type="radio" name="q5" value="c"> Saving passwords in a browser</label>
-        </div>
-        
-        <button type="button" onclick="submitQuiz()">Check my score?</button>
-    </form>
-    <p id="quizResult"></p>
-</div>
+            if (!isDeleting && charIndex === words[wordIndex].length) {
+                isDeleting = true;
+                nextSpeed = delayBetweenWords;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
 
-<script>
-    function submitQuiz() {
-        let score = 0;
-        const answers = { q1: "b", q2: "c", q3: "a", q4: "b", q5: "b" };
-        
-        Object.keys(answers).forEach(q => {
-            const selected = document.querySelector(`input[name="${q}"]:checked`);
-            if (selected && selected.value === answers[q]) {
-                score++;
+            setTimeout(typeEffect, nextSpeed);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(typeEffect, speed);
+        });
+
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 1000 } },  
+                "color": { "value": "#5ed8f6" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true, "anim": { "enable": false } },  
+                "size": { "value": 2, "random": true, "anim": { "enable": false } },  
+                "line_linked": { "enable": true, "distance": 130, "color": "#5ed8f6", "opacity": 0.3, "width": 0.8 },  
+                "move": { "enable": true, "speed": 2, "straight": false, "out_mode": "out" }  
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { 
+                    "onhover": { "enable": true, "mode": "grab" },  
+                    "onclick": { "enable": true, "mode": "push" } 
+                },
+                "modes": { 
+                    "grab": { "distance": 180, "line_linked": { "opacity": 0.8 } },  
+                    "push": { "particles_nb": 5 }  
+                }
+            },
+            "retina_detect": true
+        });
+
+        const video = document.getElementById("bgVideo");
+
+        video.addEventListener("timeupdate", function () {
+            if (video.currentTime >= video.duration - 2) { // 2 sec before end
+                video.classList.add("blurred"); // Apply more blur
             }
         });
-        
-        document.getElementById("quizResult").textContent = `Your Score: ${score}/5`;
-    }
-</script>
 
-<style>
-    .quiz-container {
-        margin: 20px auto;
-        padding: 20px;
-        width: 80%;
-        background: rgba(35, 35, 35, 0.8);
-        border-radius: 15px;
-        box-shadow: 0px 0px 15px #5ed8f6;
-        color: white;
-        text-align: left;
-        font-size: 0.8em;
-    }
-    .question {
-        margin-bottom: 15px;
-    }
-    .option {
-        display: block;
-        padding: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 5px;
-        margin: 5px 0;
-        transition: 0.3s;
-    }
-    .option:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
-    button {
-    background: #5ed8f6;
-    color: black;
-    padding: 12px 20px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    border-radius: 25px; /* Change this */
-    font-size: 1em;
-    transition: 0.3s;
-}
+        video.addEventListener("ended", function () {
+            video.classList.remove("blurred"); // Reset blur
+            video.currentTime = 0;
+            video.play(); // Restart video
+        });
+    </script>
 
-    button:hover {
-        background: #00aaff;
-    }
-    #quizResult {
-        margin-top: 15px;
-        font-size: 1.3em;
-        font-weight: bold;
-        color: #5ed8f6;
-    }
-</style>
-</div>
- 
-<script>
-    document.getElementById("toggleQuiz").addEventListener("click", function() {
-        let quiz = document.getElementById("quizContent");
-        if (quiz.style.display === "none") {
-            quiz.style.display = "block";
-            this.textContent = "Close Quiz";
-        } else {
-            quiz.style.display = "none";
-            this.textContent = "Open Quiz";
+    <button id="toggleQuiz">View More</button>
+    <div class="quiz-content" id="quizContent" style="display: none;">
+        <div class="quiz-container">
+            <h2>Cybersecurity Quiz</h2>
+            <form id="quizForm">
+                <div class="question">
+                    <p>1. What does "VPN" stand for?</p>
+                    <label class="option"><input type="radio" name="q1" value="a"> Virtual Personal Network</label>
+                    <label class="option"><input type="radio" name="q1" value="b"> Virtual Private Network</label>
+                    <label class="option"><input type="radio" name="q1" value="c"> Verified Private Node</label>
+                </div>
+                <div class="question">
+                    <p>2. Which of the following is a strong password?</p>
+                    <label class="option"><input type="radio" name="q2" value="a"> 123456</label>
+                    <label class="option"><input type="radio" name="q2" value="b"> password</label>
+                    <label class="option"><input type="radio" name="q2" value="c"> P@ssw0rd!987</label>
+                </div>
+                <div class="question">
+                    <p>3. What is "phishing"?</p>
+                    <label class="option"><input type="radio" name="q3" value="a"> A cyberattack that tricks people into revealing personal information</label>
+                    <label class="option"><input type="radio" name="q3" value="b"> A secure way to transfer files online</label>
+                    <label class="option"><input type="radio" name="q3" value="c"> An advanced encryption technique</label>
+                </div>
+                <div class="question">
+                    <p>4. What is the purpose of a firewall?</p>
+                    <label class="option"><input type="radio" name="q4" value="a"> To physically block hackers from entering your computer</label>
+                    <label class="option"><input type="radio" name="q4" value="b"> To monitor and control incoming and outgoing network traffic</label>
+                    <label class="option"><input type="radio" name="q4" value="c"> To make your internet speed faster</label>
+                </div>
+                <div class="question">
+                    <p>5. Which of the following is an example of multi-factor authentication (MFA)?</p>
+                    <label class="option"><input type="radio" name="q5" value="a"> Entering a username and password</label>
+                    <label class="option"><input type="radio" name="q5" value="b"> Using a fingerprint scanner along with a password</label>
+                    <label class="option"><input type="radio" name="q5" value="c"> Saving passwords in a browser</label>
+                </div>
+                
+                <button type="button" onclick="submitQuiz()">Check my score?</button>
+            </form>
+            <p id="quizResult"></p>
+        </div>
+    </div>
+
+    <script>
+        function submitQuiz() {
+            let score = 0;
+            const answers = { q1: "b", q2: "c", q3: "a", q4: "b", q5: "b" };
+            
+            Object.keys(answers).forEach(q => {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === answers[q]) {
+                    score++;
+                }
+            });
+            
+            document.getElementById("quizResult").textContent = `Your Score: ${score}/5`;
         }
-    });
-   </script>
-<button id="scrollTop" class="scroll-top">⬆</button>
-<script>
-    window.addEventListener("scroll", function() {
-        let scrollButton = document.getElementById("scrollTop");
-        if (window.scrollY > 200) {
-            scrollButton.style.display = "block";
-        } else {
-            scrollButton.style.display = "none";
-        }
-    });
 
-    document.getElementById("scrollTop").addEventListener("click", function() {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-</script>
-<style>
-.scroll-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-}
-</style>
-</script>
-<audio id="clickSound" src="https://github.com/arkacyberone/web/raw/refs/heads/main/beep-main.wav"></audio>
+        document.getElementById("toggleQuiz").addEventListener("click", function() {
+            let quiz = document.getElementById("quizContent");
+            if (quiz.style.display === "none") {
+                quiz.style.display = "block";
+                this.textContent = "Close Quiz";
+            } else {
+                quiz.style.display = "none";
+                this.textContent = "Open Quiz";
+            }
+        });
 
-<script>
-    document.addEventListener("click", function() {
-        let clickSound = document.getElementById("clickSound");
-        clickSound.currentTime = 0; // Reset sound to start
-        clickSound.play();
-    });
-</script>
+        const scrollButton = document.getElementById("scrollTop");
+        window.addEventListener("scroll", function() {
+            if (window.scrollY > 200) {
+                scrollButton.style.display = "block";
+            } else {
+                scrollButton.style.display = "none";
+            }
+        });
+
+        scrollButton.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+
+    <button id="scrollTop" class="scroll-top">⬆</button>
+    <audio id="clickSound" src="https://github.com/arkacyberone/web/raw/refs/heads/main/beep-main.wav"></audio>
+
+    <script>
+        document.addEventListener("click", function() {
+            let clickSound = document.getElementById("clickSound");
+            clickSound.currentTime = 0; // Reset sound to start
+            clickSound.play();
+        });
+    </script>
+
 </body>
 </html>
